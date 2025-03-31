@@ -1,4 +1,8 @@
-import { VisuallyHidden, useSwitch } from "@heroui/react";
+"use client";
+
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 export const MoonIcon = (props: any) => {
 	return (
@@ -38,42 +42,46 @@ export const SunIcon = (props: any) => {
 	);
 };
 
-const ThemeSwitch = (props: any) => {
-	const {
-		Component,
-		slots,
-		isSelected,
-		getBaseProps,
-		getInputProps,
-		getWrapperProps,
-	} = useSwitch(props);
+const ThemeSwitch = () => {
+	const { theme, setTheme, resolvedTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) {
+		return (
+			<div className="w-10 h-10 rounded-full bg-muted animate-pulse" />
+		);
+	}
+
+	const isDark = resolvedTheme === "dark";
 
 	return (
-		<div className="flex flex-col gap-2">
-			<Component {...getBaseProps()}>
-				<VisuallyHidden>
-					<input {...getInputProps()} />
-				</VisuallyHidden>
-				<div
-					{...getWrapperProps()}
-					className={slots.wrapper({
-						class: [
-							"w-8 h-8",
-							"flex items-center justify-center",
-							"rounded-lg bg-default-100 hover:bg-default-200",
-						],
-					})}
-				>
-					{isSelected ? <SunIcon /> : <MoonIcon />}
-				</div>
-			</Component>
-			<p className="text-default-500 select-none">
-				Lights: {isSelected ? "on" : "off"}
-			</p>
-		</div>
+		<button
+			onClick={() => setTheme(isDark ? "light" : "dark")}
+			className={cn(
+				"w-10 h-10",
+				"flex items-center justify-center",
+				"rounded-full",
+				"transition-all duration-300 ease-in-out",
+				"hover:scale-110",
+				isDark
+					? "bg-primary text-primary-foreground hover:bg-primary/90"
+					: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+				"shadow-md hover:shadow-lg",
+				"focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+			)}
+			aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+		>
+			{isDark ? (
+				<SunIcon className="w-5 h-5" />
+			) : (
+				<MoonIcon className="w-5 h-5" />
+			)}
+		</button>
 	);
 };
 
-export default function App() {
-	return <ThemeSwitch />;
-}
+export default ThemeSwitch;

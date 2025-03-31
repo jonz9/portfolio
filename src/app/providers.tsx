@@ -14,7 +14,15 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
 
 	return (
 		<NextUIProvider navigate={navigate}>
-			<NextThemesProvider {...props}>{children}</NextThemesProvider>
+			<NextThemesProvider
+				attribute="class"
+				defaultTheme="light"
+				themes={["light", "dark"]}
+				storageKey="portfolio-theme"
+				{...props}
+			>
+				{children}
+			</NextThemesProvider>
 		</NextUIProvider>
 	);
 }

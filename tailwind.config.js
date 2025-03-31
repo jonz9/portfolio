@@ -4,20 +4,38 @@ const { heroui } = require("@heroui/react");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+	darkMode: "class",
 	theme: {
 		extend: {
 			colors: {
-				background: "var(--background)",
-				foreground: "var(--foreground)",
-				accent: "var(--accent)",
-				"accent-light": "var(--accent-light)",
+				background: "hsl(var(--background))",
+				foreground: "hsl(var(--foreground))",
+				accent: {
+					DEFAULT: "hsl(var(--accent))",
+					light: "hsl(var(--accent-light))",
+					dark: "hsl(var(--accent-dark))",
+				},
+				primary: {
+					DEFAULT: "hsl(var(--primary))",
+					foreground: "hsl(var(--primary-foreground))",
+				},
+				secondary: {
+					DEFAULT: "hsl(var(--secondary))",
+					foreground: "hsl(var(--secondary-foreground))",
+				},
+				muted: {
+					DEFAULT: "hsl(var(--muted))",
+					foreground: "hsl(var(--muted-foreground))",
+				},
+				border: "hsl(var(--border))",
+				ring: "hsl(var(--ring))",
 			},
 			fontFamily: {
-				sans: ["Inter", "sans-serif"],
-				title: ["Space Grotesk", "sans-serif"],
+				sans: ["Inter", "system-ui", "sans-serif"],
+				space: ["Space Grotesk", "system-ui", "sans-serif"],
+				mono: ["Space Mono", "monospace"],
 			},
 		},
 	},
-	darkMode: "class",
-	plugins: [],
+	plugins: [require("@tailwindcss/typography")],
 };
