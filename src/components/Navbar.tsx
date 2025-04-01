@@ -38,7 +38,7 @@ const NavLink = memo(({ href, label }: { href: string; label: string }) => {
         "after:h-[2px] after:bg-accent",
         isActive
           ? "after:w-full after:opacity-50"
-          : "after:w-0 after:transition-all after:duration-1000 hover:after:w-full"
+          : "after:w-0 hover:after:w-full hover:after:transition-all hover:after:duration-1000"
       )}
     >
       {label}

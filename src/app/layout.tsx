@@ -4,6 +4,7 @@ import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
 import { DotPattern } from "@/components/DotBackground";
 import { cn } from "@/utils/cn";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "John Zhang",
@@ -53,7 +54,7 @@ export default function RootLayout({
         <div className="fixed inset-0">
           <DotPattern className={cn("opacity-15")} glow={true} />
         </div>
-        <div className="relative flex flex-col min-h-screen antialiased px-[30em] py-[10em]">
+        <div className="relative flex flex-col min-h-screen antialiased w-[40%] mx-auto py-[10em]">
           <Providers
             attribute="class"
             defaultTheme="light"
@@ -61,6 +62,7 @@ export default function RootLayout({
           >
             <Navbar />
             {children}
+            <Footer />
           </Providers>
         </div>
       </body>

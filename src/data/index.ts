@@ -1,15 +1,50 @@
+import { FaEnvelope, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import { SiDevpost } from "react-icons/si";
+
 export const About = {
   name: "John Zhang",
   email: "j444zhan@uwaterloo.ca",
   phone: "+1 (647) 581-6930",
-  linkedin: "https://www.linkedin.com/in/john-zhang-2665b9236/",
-  github: "https://github.com/jonz9",
-  devpost:
-    "https://devpost.com/zhangjohn-ca?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav",
+  socials: [
+    {
+      name: "email",
+      url: "mailto:j444zhan@uwaterloo.ca",
+      icon: FaEnvelope,
+    },
+    {
+      name: "linkedin",
+      url: "https://www.linkedin.com/in/john-zhang-2665b9236/",
+      icon: FaLinkedin,
+    },
+    {
+      name: "github",
+      url: "https://github.com/jonz9",
+      icon: FaGithub,
+    },
+    {
+      name: "insta",
+      url: "https://www.instagram.com/zhanger_shots/",
+      icon: FaInstagram,
+    },
+    {
+      name: "devpost",
+      url: "https://devpost.com/zhangjohn-ca?ref_content=user-portfolio&ref_feature=portfolio&ref_medium=global-nav",
+      icon: SiDevpost,
+    },
+  ],
   bio: [
-    "I'm a computer engineering student at the University of Waterloo",
-    "I'm interested in software development and machine learning",
-    "I'm currently looking for a summer 2025 internship",
+    {
+      text: "NLP Research @ Alberta Machine Intelligence Institute (Amii)",
+      itemIcon: "🔍",
+    },
+    { text: "Drone Autonomy @ UWARG", itemIcon: "🚁" },
+    {
+      text: "Building a voxel engine to render 3D objects in voxel space",
+      itemIcon: "🎨",
+    },
+    { text: "Shoot RAWs at night", itemIcon: "🌌" },
+    { text: "Run for a plate sometimes", itemIcon: "🏃‍♂️" },
+    { text: "Computer Engineering @ University of Waterloo", itemIcon: "💻" },
   ],
 };
 
