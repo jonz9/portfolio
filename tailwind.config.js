@@ -8,27 +8,27 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				background: "hsl(var(--background))",
-				foreground: "hsl(var(--foreground))",
+				background: "var(--background)",
+				foreground: "var(--foreground)",
 				accent: {
-					DEFAULT: "hsl(var(--accent))",
-					light: "hsl(var(--accent-light))",
-					dark: "hsl(var(--accent-dark))",
+					DEFAULT: "var(--accent)",
+					light: "var(--accent-light)",
+					dark: "var(--accent-dark)",
 				},
 				primary: {
-					DEFAULT: "hsl(var(--primary))",
-					foreground: "hsl(var(--primary-foreground))",
+					DEFAULT: "var(--primary)",
+					foreground: "var(--primary-foreground)",
 				},
 				secondary: {
-					DEFAULT: "hsl(var(--secondary))",
-					foreground: "hsl(var(--secondary-foreground))",
+					DEFAULT: "var(--secondary)",
+					foreground: "var(--secondary-foreground)",
 				},
 				muted: {
-					DEFAULT: "hsl(var(--muted))",
-					foreground: "hsl(var(--muted-foreground))",
+					DEFAULT: "var(--muted)",
+					foreground: "var(--muted-foreground)",
 				},
-				border: "hsl(var(--border))",
-				ring: "hsl(var(--ring))",
+				border: "var(--border)",
+				ring: "var(--ring)",
 			},
 			fontFamily: {
 				sans: ["Inter", "system-ui", "sans-serif"],
