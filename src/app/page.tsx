@@ -5,6 +5,11 @@ import { motion } from "framer-motion";
 import Image from "@heroui/react";
 import NextImage from "next/image";
 import Photo from "@/components/PFP";
+import { useRef, useState } from "react";
+import Lottie, { LottieRefCurrentProps } from "lottie-react";
+import resumeBlack from "../../public/static/icons/resume-black.json";
+import resumeWhite from "../../public/static/icons/resume-white.json";
+import { useTheme } from "next-themes";
 
 export default function Home() {
   // Define animation variants for child elements
@@ -12,6 +17,13 @@ export default function Home() {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
   };
+
+  const theme = useTheme();
+
+  // Resume Button
+  const [resumeHovered, setResumeHovered] = useState(false);
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const resume = theme.theme === "dark" ? resumeWhite : resumeBlack;
 
   return (
     <motion.div
@@ -45,9 +57,38 @@ export default function Home() {
       {/* Resume & Picture */}
       <motion.div
         variants={itemVariants}
-        className="flex flex-row items-center justify-between p-5 mt-10 border-2 rounded-md"
+        className="relative flex flex-row items-center justify-between px-8 py-5 mt-10 rounded-md"
+        style={{
+          background: "transparent",
+          position: "relative",
+        }}
       >
-        <p>Resume</p>
+        {/* Top-left corner */}
+        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 rounded-tl-md"></div>
+        {/* Bottom-right corner */}
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 rounded-br-md"></div>
+        <button
+          onMouseEnter={() => {
+            setResumeHovered(true);
+            lottieRef.current?.goToAndPlay(0);
+          }}
+          onMouseLeave={() => setResumeHovered(false)}
+          className="flex items-center justify-between gap-2 px-20 py-6 transition-all duration-300 border-2 rounded-md cursor-pointer hover:scale-105 bg-gradient-to-br from-black to-gray-900 hover:border-gray-400"
+          style={{
+            backgroundImage:
+              "url('https://www.transparenttextures.com/patterns/asfalt-light.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <Lottie
+            lottieRef={lottieRef}
+            animationData={resume}
+            loop={false}
+            style={{ width: 30, height: 30 }}
+          />
+          <h1 className="text-lg">My Resume</h1>
+        </button>
         <Photo />
       </motion.div>
 

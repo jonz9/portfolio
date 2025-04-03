@@ -19,10 +19,10 @@ const navItems = [
     label: "Photos",
     href: "/photos",
   },
-  {
-    label: "Scripts",
-    href: "/scripts",
-  },
+  //   {
+  //     label: "Scripts",
+  //     href: "/scripts",
+  //   },
 ];
 
 const NavLink = memo(({ href, label }: { href: string; label: string }) => {

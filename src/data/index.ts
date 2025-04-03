@@ -1,10 +1,4 @@
-import {
-  FaEnvelope,
-  FaLinkedin,
-  FaGithub,
-  FaInstagram,
-  FaUniversity,
-} from "react-icons/fa";
+import { FaEnvelope, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 import { SiDevpost } from "react-icons/si";
 import uwLogo from "../../public/static/images/uw.jpg";
 import amiiLogo from "../../public/static/images/amii.jpg";
@@ -60,9 +54,10 @@ export const About = {
   ],
 };
 
-export const Projects = [
+export const ProjectsList = [
   {
     name: "Voxel Engine",
+    image: "",
     caption: "engine for voxel-based graphic generation",
     github: "https://github.com/jonz9/voxel-engine",
     date: "April 2025",
@@ -71,6 +66,7 @@ export const Projects = [
   },
   {
     name: "Gesture Navigation",
+    image: "",
     caption: "Gesture navigation for devices",
     github: "https://github.com/jonz9/gesture-navigator",
     date: "March 2025",
@@ -79,6 +75,7 @@ export const Projects = [
   },
   {
     name: "State Management System",
+    image: "",
     caption:
       "State management and code generation for game and app development",
     github: "https://github.com/jonz9/state-management-system",
@@ -96,6 +93,7 @@ export const Projects = [
   },
   {
     name: "Image Summarizer",
+    image: "",
     caption: "Constructive image summarization for photographic content",
     github: "https://github.com/jonz9/image-summarizer",
     date: "Feb 2025",
@@ -111,6 +109,7 @@ export const Projects = [
   },
   {
     name: "Stock Market Simulator",
+    image: "",
     caption: "Stock market simulator for trading stocks",
     github: "https://github.com/maostar1010/stock-simulation",
     date: "Feb 2025",
@@ -131,6 +130,7 @@ export const Projects = [
   },
   {
     name: "Verity",
+    image: "",
     caption: "Charity management platform for non-profits on the blockchain",
     github: "https://github.com/jonz9/verity",
     date: "May 2024",
@@ -148,6 +148,7 @@ export const Projects = [
   },
   {
     name: "MovieStore",
+    image: "",
     caption: "Movie retail platform for renting and buying movies",
     github: "https://github.com/jonz9/MovieStore",
     date: "July 2023",
@@ -161,22 +162,22 @@ export const Experiences = [
     name: "Alberta Machine Intelligence Institute (Amii)",
     icon: amiiLogo,
     link: "https://amii.ca/",
-    jobTitle: "NLP Research",
+    jobTitle: "ML Research Assistant",
     date: "Jan 2025 - Present",
-    description: "Conducting research in NLP and Computational Linguistics.",
+    description: "Conducting research in Computational Linguistics.",
   },
   {
     name: "UWARG",
     icon: uwargLogo,
-    link: "https://uwarg.ca/",
+    link: "https://www.uwarg.com/",
     jobTitle: "Autonomy Software Developer",
     date: "May 2024 - Present",
     description: "Developing autonomy software for drones.",
   },
   {
-    name: "Mercedes and Singh Innovative Venues",
+    name: "H.O.M.E. AI",
     icon: masivLogo,
-    link: "https://www.mercedesandsingh.com/",
+    link: "https://www.h-o-m-e.ai/",
     jobTitle: "Full Stack Developer",
     date: "Jan 2025 - Feb 2025",
     description: "Built 3D rendering software for digital fabrication.",
@@ -184,7 +185,7 @@ export const Experiences = [
   {
     name: "FutureVault",
     icon: futurevaultLogo,
-    link: "https://futurevault.ca/",
+    link: "https://www.futurevault.com/",
     jobTitle: "UI/UX Design Intern",
     date: "May 2024 - Present",
     description:
@@ -193,7 +194,7 @@ export const Experiences = [
   {
     name: "UW BioMechatronics Design Team",
     icon: biomechLogo,
-    link: "https://www.uwbio.ca/",
+    link: "https://www.linkedin.com/company/university-of-waterloo-biomechatronics-team/",
     jobTitle: "Embedded Software Developer",
     date: "Sept 2023 - Apr 2024",
     description:
@@ -204,9 +205,14 @@ export const Experiences = [
 export const Education = {
   name: "University of Waterloo",
   icon: uwLogo,
-  link: "https://uwaterloo.ca/",
+  link: "https://uwaterloo.ca/engineering/",
   program: "Computer Engineering, BASc.",
   date: "2023 - 2028",
 };
 
-export const Publications = [];
+export const Publications = [
+  {
+    title: "",
+    link: "",
+  },
+];

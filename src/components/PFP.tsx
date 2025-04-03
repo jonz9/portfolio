@@ -6,10 +6,10 @@ import Image from "next/image";
 
 const Photo = memo(() => {
   return (
-    <div className="relative flex items-center justify-center h-full transition-all duration-300 cursor-pointer hover:scale-105">
+    <div className="relative flex items-center justify-center h-full transition-all duration-300 cursor-pointer hover:scale-105 hover:brightness-130">
       {/* Circle */}
       <motion.svg
-        className="absolute w-[210px] h-[210px] lg:w-[250px] lg:h-[250px]"
+        className="absolute w-[105px] h-[105px] lg:w-[125px] lg:h-[125px]"
         fill="transparent"
         viewBox="0 0 506 506"
         xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ const Photo = memo(() => {
             opacity: 1,
             transition: { delay: 0.5, duration: 0.4, ease: "easeIn" },
           }}
-          className="relative w-[198px] h-[198px] lg:w-[238px] lg:h-[238px] mix-blend-darken dark:mix-blend-lighten"
+          className="relative w-[99px] h-[99px] lg:w-[119px] lg:h-[119px] mix-blend-darken dark:mix-blend-lighten"
         >
           <Image
             src="/static/images/pfp.png"
