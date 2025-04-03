@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import { cn } from "@/utils/cn";
+import type { Metadata } from "next";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
-import { DotPattern } from "@/components/DotBackground";
-import { cn } from "@/utils/cn";
 import Footer from "@/components/Footer";
+import { DotPattern } from "@/components/DotBackground";
 
 export const metadata: Metadata = {
   title: "John Zhang",
@@ -52,12 +52,12 @@ export default function RootLayout({
 
       <body className="relative min-h-screen antialiased">
         <div className="fixed inset-0">
-          <DotPattern className={cn("opacity-15")} glow={true} />
+          <DotPattern className={cn("opacity-20")} glow={true} />
         </div>
-        <div className="relative flex flex-col min-h-screen antialiased w-[40%] mx-auto py-[10em]">
+        <div className="relative flex flex-col min-h-screen antialiased w-[90%] sm:w-[70%] md:w-[35%] 2xl:w-[30%] mx-auto py-[10em] sm:py-[8em] md:py-[6em] lg:py-[4em]">
           <Providers
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="dark"
             themes={["light", "dark"]}
           >
             <Navbar />

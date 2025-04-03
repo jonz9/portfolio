@@ -1,5 +1,17 @@
-import { FaEnvelope, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaLinkedin,
+  FaGithub,
+  FaInstagram,
+  FaUniversity,
+} from "react-icons/fa";
 import { SiDevpost } from "react-icons/si";
+import uwLogo from "../../public/static/images/uw.jpg";
+import amiiLogo from "../../public/static/images/amii.jpg";
+import uwargLogo from "../../public/static/images/warg.jpeg";
+import futurevaultLogo from "../../public/static/images/futurevault.png";
+import masivLogo from "../../public/static/images/masiv.png";
+import biomechLogo from "../../public/static/images/biomech.jpeg";
 
 export const About = {
   name: "John Zhang",
@@ -42,8 +54,8 @@ export const About = {
       text: "Building a voxel engine to render 3D objects in voxel space",
       itemIcon: "🎨",
     },
-    { text: "Shoot RAWs at night", itemIcon: "🌌" },
-    { text: "Run for a plate sometimes", itemIcon: "🏃‍♂️" },
+    { text: "Shooting RAWs at night", itemIcon: "🌌" },
+    { text: "Running for a plate sometimes", itemIcon: "🏃‍♂️" },
     { text: "Computer Engineering @ University of Waterloo", itemIcon: "💻" },
   ],
 };
@@ -144,6 +156,57 @@ export const Projects = [
   },
 ];
 
-export const Experiences = [];
+export const Experiences = [
+  {
+    name: "Alberta Machine Intelligence Institute (Amii)",
+    icon: amiiLogo,
+    link: "https://amii.ca/",
+    jobTitle: "NLP Research",
+    date: "Jan 2025 - Present",
+    description: "Conducting research in NLP and Computational Linguistics.",
+  },
+  {
+    name: "UWARG",
+    icon: uwargLogo,
+    link: "https://uwarg.ca/",
+    jobTitle: "Autonomy Software Developer",
+    date: "May 2024 - Present",
+    description: "Developing autonomy software for drones.",
+  },
+  {
+    name: "Mercedes and Singh Innovative Venues",
+    icon: masivLogo,
+    link: "https://www.mercedesandsingh.com/",
+    jobTitle: "Full Stack Developer",
+    date: "Jan 2025 - Feb 2025",
+    description: "Built 3D rendering software for digital fabrication.",
+  },
+  {
+    name: "FutureVault",
+    icon: futurevaultLogo,
+    link: "https://futurevault.ca/",
+    jobTitle: "UI/UX Design Intern",
+    date: "May 2024 - Present",
+    description:
+      "Prototyped UI/UX and built wireframes for a digital vault software.",
+  },
+  {
+    name: "UW BioMechatronics Design Team",
+    icon: biomechLogo,
+    link: "https://www.uwbio.ca/",
+    jobTitle: "Embedded Software Developer",
+    date: "Sept 2023 - Apr 2024",
+    description:
+      "Developed firmware and data collection for electromyography sleeve.",
+  },
+];
+
+export const Education = {
+  name: "University of Waterloo",
+  icon: uwLogo,
+  link: "https://uwaterloo.ca/",
+  program: "Computer Engineering, BASc.",
+  date: "2023 - 2028",
+};
 
 export const Publications = [];

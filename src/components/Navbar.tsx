@@ -1,10 +1,10 @@
 "use client";
-
 import Link from "next/link";
-import React, { memo } from "react";
-import ThemeSwitch from "@/components/ThemeSwitcher";
 import { cn } from "@/utils/cn";
+import React, { memo } from "react";
+import CommandBtn from "./CommandBtn";
 import { usePathname } from "next/navigation";
+import ThemeSwitch from "@/components/ThemeSwitcher";
 
 const navItems = [
   {
@@ -56,7 +56,8 @@ const Navbar = () => {
         {navItems.map((item) => (
           <NavLink key={item.href} href={item.href} label={item.label} />
         ))}
-        <ThemeSwitch />
+        {/* <ThemeSwitch /> */}
+        <CommandBtn />
       </div>
     </div>
   );
