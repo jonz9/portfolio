@@ -6,13 +6,15 @@ import Image from "@heroui/react";
 import NextImage from "next/image";
 import Photo from "@/components/PFP";
 import { useRef, useState } from "react";
-import Lottie, { LottieRefCurrentProps } from "lottie-react";
+import { LottieRefCurrentProps } from "lottie-react";
 import resumeBlack from "../../public/static/icons/resume-black.json";
 import resumeWhite from "../../public/static/icons/resume-white.json";
 import { useTheme } from "next-themes";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function Home() {
-  // Define animation variants for child elements
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
@@ -24,10 +26,13 @@ export default function Home() {
   const [resumeHovered, setResumeHovered] = useState(false);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const resume = theme.theme === "dark" ? resumeWhite : resumeBlack;
+  const openResume = () => {
+    window.open("/static/files/JohnZhangResume.pdf", "_blank");
+  };
 
   return (
     <motion.div
-      variants={staggerContainer(0.1, 0.2)} // Reduced values for more noticeable staggering
+      variants={staggerContainer(0.1, 0.2)}
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.25 }}
@@ -73,6 +78,7 @@ export default function Home() {
             lottieRef.current?.goToAndPlay(0);
           }}
           onMouseLeave={() => setResumeHovered(false)}
+          onClick={openResume}
           className="flex items-center justify-between gap-2 px-20 py-6 transition-all duration-300 border-2 rounded-md cursor-pointer hover:scale-105 bg-gradient-to-br from-black to-gray-900 hover:border-gray-400"
           style={{
             backgroundImage:

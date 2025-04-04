@@ -6,7 +6,7 @@ Install Node Dependencies
 npm i
 ```
 
-Run Dev Server
+Run Dev Server Locally
 
 ```bash
 npm run dev
@@ -17,6 +17,3 @@ pnpm dev
 # or
 bun dev
 ```
-
-Notes:
-https://lordicon.com/icons/system/regular?q=&c=143

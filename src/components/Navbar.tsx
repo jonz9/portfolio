@@ -17,7 +17,7 @@ const navItems = [
   },
   {
     label: "Photos",
-    href: "/photos",
+    href: "/photography",
   },
   //   {
   //     label: "Scripts",
