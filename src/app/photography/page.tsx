@@ -1,21 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { staggerContainer } from "@/utils/motion";
-import useSWR from "swr";
+import { createClient } from "@supabase/supabase-js";
+import { LottieRefCurrentProps } from "lottie-react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
+import camWhite from "../../../public/static/icons/cam-white.json";
+import camBlack from "../../../public/static/icons/cam-black.json";
 
-const folderName = "my-flicks";
-
-const fetcher = async () => {
-  const response = await fetch(
-    `https://api.cloudinary.com/v2/${process.env.CLOUDINARY_CLOUD_NAME}/resources/image/upload/${folderName}`
-  );
-  if (!response.ok) throw new Error("Failed to fetch images");
-  const data = await response.json();
-  return data.resources;
-};
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-10 h-10 rounded-full bg-muted animate-pulse" />
+  ),
+});
 
 const Photography = () => {
   const itemVariants = {
@@ -23,31 +24,129 @@ const Photography = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
-  const { data, error, isLoading } = useSWR("cloudinary-images", fetcher);
+  const theme = useTheme();
+
+  // cam icon
+  const [camHovered, setCamHovered] = useState(false);
+  const camRef = useRef<LottieRefCurrentProps>(null);
+  const cam = theme.theme === "dark" ? camWhite : camBlack;
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [isLottieLoaded, setIsLottieLoaded] = useState(false);
+
+  useEffect(() => {
+    const preloadLottie = async () => {
+      try {
+        await import("lottie-react");
+        setIsLottieLoaded(true);
+      } catch (error) {
+        console.error("Error preloading Lottie:", error);
+      }
+    };
+    preloadLottie();
+  }, []);
+
+  // supabase client
+  const supabaseUrl = `https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co`;
+  const supabase = createClient(
+    supabaseUrl,
+    `${process.env.NEXT_PUBLIC_SUPABASE_API_KEY}`
+  );
+
+  const fetchPhotos = async () => {
+    const { data, error } = await supabase.storage
+      .from("flicks")
+      .list("flicks", { limit: 100 });
+
+    if (error) {
+      console.error("Error fetching photos:", error);
+      return [];
+    }
+
+    for (const image of data) {
+      const { data: urlData } = await supabase.storage
+        .from("flicks")
+        .createSignedUrl(`flicks/${image.name}`, 60 * 60 * 24 * 30);
+
+      if (urlData?.signedUrl) {
+        setImageUrls((prev) => [...prev, urlData.signedUrl]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
 
   return (
-    <div className="relative left-[50%] right-[50%] mx-[-50vw] w-screen">
+    <div className="relative left-[50%] right-[50%] mx-[-50vw] w-screen mb-10 min-h-screen">
       <motion.div
         variants={staggerContainer(0.1, 0.2)}
         initial="hidden"
         animate="show"
-        className="flex flex-col gap-8 px-4 my-10 md:px-8 lg:px-16"
+        className="flex flex-col gap-8 px-4 my-10 md:px-48 lg:px-60"
       >
         <motion.h1
           variants={itemVariants}
-          className="w-full max-w-screen-xl mx-auto my-4 text-xl font-bold"
+          className="flex flex-row items-center w-full max-w-screen-xl gap-4 mx-auto my-4 text-xl font-bold transition-all duration-300 hover:cursor-pointer hover:pl-4 hover:text-gradient-to-r hover:from-yellow-500 hover:to-orange-600"
+          onMouseEnter={() => {
+            setCamHovered(true);
+            if (camRef.current) {
+              camRef.current.goToAndPlay(0);
+            }
+          }}
+          onMouseLeave={() => {
+            setCamHovered(false);
+            if (camRef.current) {
+              camRef.current.goToAndStop(0);
+            }
+          }}
         >
-          My Flicks
+          {isLottieLoaded ? (
+            <Lottie
+              lottieRef={camRef}
+              animationData={cam}
+              loop={false}
+              style={{ width: 40, height: 40 }}
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-muted animate-pulse" />
+          )}
+          <p className="text-4xl font-bold">Shots of Everything</p>
         </motion.h1>
 
-        {/* Full-width content */}
+        {/* Improved photo grid */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+          className="gap-4 px-2 space-y-4 columns-1 sm:columns-2 lg:columns-3"
         >
-          <div className="h-64 rounded-lg bg-muted"></div>
-          <div className="h-64 rounded-lg bg-muted"></div>
-          <div className="h-64 rounded-lg bg-muted"></div>
+          {imageUrls.map((url, index) => (
+            <motion.div
+              key={index}
+              className="relative overflow-hidden rounded-lg bg-muted"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+              whileHover={{ scale: 1.02 }}
+              style={{
+                gridRow: "span 2",
+                height: "100%",
+              }}
+            >
+              <Image
+                src={url}
+                alt="flick"
+                fill
+                className="object-cover w-full h-full transition-opacity duration-300 rounded-lg opacity-30"
+                loader={({ src }) => {
+                  return src;
+                }}
+                onLoadingComplete={(img) => {
+                  img.classList.remove("opacity-30");
+                }}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </motion.div>
+          ))}
         </motion.div>
       </motion.div>
     </div>
