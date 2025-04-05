@@ -23,7 +23,6 @@ export default function Home() {
   const theme = useTheme();
 
   // Resume Button
-  const [resumeHovered, setResumeHovered] = useState(false);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const resume = theme.theme === "dark" ? resumeWhite : resumeBlack;
   const openResume = () => {
@@ -73,11 +72,8 @@ export default function Home() {
         {/* Bottom-right corner */}
         <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 rounded-br-md"></div>
         <button
-          onMouseEnter={() => {
-            setResumeHovered(true);
-            lottieRef.current?.goToAndPlay(0);
-          }}
-          onMouseLeave={() => setResumeHovered(false)}
+          onMouseEnter={() => lottieRef.current?.goToAndPlay(0)}
+          onMouseLeave={() => lottieRef.current?.goToAndStop(0)}
           onClick={openResume}
           className="flex items-center justify-between gap-2 px-20 py-6 transition-all duration-300 border-2 rounded-md cursor-pointer hover:scale-105 bg-gradient-to-br from-black to-gray-900 hover:border-gray-400"
           style={{

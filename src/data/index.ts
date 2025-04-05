@@ -1,11 +1,5 @@
 import { FaEnvelope, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 import { SiDevpost } from "react-icons/si";
-import uwLogo from "../../public/static/images/uw.jpg";
-import amiiLogo from "../../public/static/images/amii.jpg";
-import uwargLogo from "../../public/static/images/warg.jpeg";
-import futurevaultLogo from "../../public/static/images/futurevault.png";
-import masivLogo from "../../public/static/images/masiv.png";
-import biomechLogo from "../../public/static/images/biomech.jpeg";
 
 export const About = {
   name: "John Zhang",
@@ -58,7 +52,7 @@ export const ProjectsList = [
   {
     name: "Voxel Engine",
     image: "",
-    caption: "engine for voxel-based graphic generation",
+    caption: "Engine for voxel-based graphic generation",
     github: "https://github.com/jonz9/voxel-engine",
     date: "April 2025",
     tags: ["C++", "C", "OpenGL", "GLFW", "GLAD"],
@@ -67,7 +61,7 @@ export const ProjectsList = [
   {
     name: "Gesture Navigation",
     image: "",
-    caption: "Gesture navigation for devices",
+    caption: "Gesture navigation to control devices when AFK",
     github: "https://github.com/jonz9/gesture-navigator",
     date: "March 2025",
     tags: ["OpenCV", "Python", "TensorFlow", "Keras", "MediaPipe"],
@@ -75,7 +69,7 @@ export const ProjectsList = [
   },
   {
     name: "State Management System",
-    image: "",
+    image: "/static/images/stateeditor.png",
     caption:
       "State management and code generation for game and app development",
     github: "https://github.com/jonz9/state-management-system",
@@ -93,14 +87,15 @@ export const ProjectsList = [
   },
   {
     name: "Image Summarizer",
-    image: "",
+    image: "/static/images/imagesummarizer.png",
     caption: "Constructive image summarization for photographic content",
     github: "https://github.com/jonz9/image-summarizer",
     date: "Feb 2025",
     tags: [
       "OpenCV",
-      "Python",
+      "PyTorch",
       "LangChain",
+      "Python",
       "Next.js",
       "TypeScript",
       "TailwindCSS",
@@ -109,7 +104,7 @@ export const ProjectsList = [
   },
   {
     name: "Stock Market Simulator",
-    image: "",
+    image: "/static/images/stockmarketsim.png",
     caption: "Stock market simulator for trading stocks",
     github: "https://github.com/maostar1010/stock-simulation",
     date: "Feb 2025",
@@ -130,7 +125,7 @@ export const ProjectsList = [
   },
   {
     name: "Verity",
-    image: "",
+    image: "/static/images/verity.png",
     caption: "Charity management platform for non-profits on the blockchain",
     github: "https://github.com/jonz9/verity",
     date: "May 2024",
@@ -148,7 +143,7 @@ export const ProjectsList = [
   },
   {
     name: "MovieStore",
-    image: "",
+    image: "/static/images/moviestore.png",
     caption: "Movie retail platform for renting and buying movies",
     github: "https://github.com/jonz9/MovieStore",
     date: "July 2023",
@@ -160,7 +155,7 @@ export const ProjectsList = [
 export const Experiences = [
   {
     name: "Alberta Machine Intelligence Institute (Amii)",
-    icon: amiiLogo,
+    icon: "/static/images/amii.jpg",
     link: "https://amii.ca/",
     jobTitle: "ML Research Assistant",
     date: "Jan 2025 - Present",
@@ -168,7 +163,7 @@ export const Experiences = [
   },
   {
     name: "UWARG",
-    icon: uwargLogo,
+    icon: "/static/images/warg.jpeg",
     link: "https://www.uwarg.com/",
     jobTitle: "Autonomy Software Developer",
     date: "May 2024 - Present",
@@ -176,7 +171,7 @@ export const Experiences = [
   },
   {
     name: "H.O.M.E. AI",
-    icon: masivLogo,
+    icon: "/static/images/masiv.png",
     link: "https://www.h-o-m-e.ai/",
     jobTitle: "Full Stack Developer",
     date: "Jan 2025 - Feb 2025",
@@ -184,7 +179,7 @@ export const Experiences = [
   },
   {
     name: "FutureVault",
-    icon: futurevaultLogo,
+    icon: "/static/images/futurevault.png",
     link: "https://www.futurevault.com/",
     jobTitle: "UI/UX Design Intern",
     date: "May 2024 - Present",
@@ -193,7 +188,7 @@ export const Experiences = [
   },
   {
     name: "UW BioMechatronics Design Team",
-    icon: biomechLogo,
+    icon: "/static/images/biomech.jpeg",
     link: "https://www.linkedin.com/company/university-of-waterloo-biomechatronics-team/",
     jobTitle: "Embedded Software Developer",
     date: "Sept 2023 - Apr 2024",
@@ -204,7 +199,7 @@ export const Experiences = [
 
 export const Education = {
   name: "University of Waterloo",
-  icon: uwLogo,
+  icon: "/static/images/uw.jpg",
   link: "https://uwaterloo.ca/engineering/",
   program: "Computer Engineering, BASc.",
   date: "2023 - 2028",
