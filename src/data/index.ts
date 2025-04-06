@@ -180,7 +180,7 @@ export const Experiences = [
     icon: "/static/images/futurevault.png",
     link: "https://www.futurevault.com/",
     jobTitle: "UI/UX Design Intern",
-    date: "May 2024 - Present",
+    date: "May 2024 - Aug 2024",
     description:
       "Prototyped UI/UX and built wireframes for a digital vault software.",
   },

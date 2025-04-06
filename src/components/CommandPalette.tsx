@@ -96,7 +96,7 @@ export default function CommandPalette() {
           backdrop: "bg-[#f9eddc]/80 dark:bg-[#0a0c12]/80",
           base: `
             backdrop-blur-md max-w-xl mx-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-            max-h-[70vh] rounded-2xl overflow-hidden flex flex-col
+            max-h-[70vh] rounded-2xl overflow-hidden flex
             bg-stone-800/10 dark:bg-stone-500/20
             border border-white/20 dark:border-black/30
             shadow-xl transition-all duration-300
@@ -106,7 +106,7 @@ export default function CommandPalette() {
       >
         <ModalContent>
           {() => (
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full scrollbar-hide">
               {/* Search Bar */}
               <div className="flex-shrink-0 p-4">
                 <div className="flex items-center justify-between gap-3 px-3 py-2 align-top border rounded-lg bg-muted/50">
@@ -129,7 +129,7 @@ export default function CommandPalette() {
               </div>
 
               {/* Commands */}
-              <div className="flex-1 px-4 pb-4 overflow-y-auto scrollbar-thin scrollbar-thumb-accent scrollbar-track-transparent">
+              <div className="flex-1 px-4 pb-4 overflow-y-auto max-h-[52vh] scroll-auto">
                 <div className="space-y-4">
                   {Object.entries(groupedCommands).map(
                     ([section, commands]) => (

@@ -53,7 +53,7 @@ export default function Home() {
     <motion.div
       variants={staggerContainer(0.1, 0.2)}
       initial="hidden"
-      whileInView="show"
+      animate="show"
       viewport={{ once: true, amount: 0.25 }}
       className="flex flex-col min-h-screen gap-5 my-20 items-left"
     >
@@ -80,6 +80,8 @@ export default function Home() {
       {/* Resume & Picture */}
       <motion.div
         variants={itemVariants}
+        initial="hidden"
+        animate="show"
         className="relative flex flex-col items-center justify-center w-full gap-8 mt-4 md:mt-10 md:flex-row"
       >
         <button
@@ -122,9 +124,9 @@ export default function Home() {
       {/* Experience */}
       <motion.div
         id="experiences"
-        variants={staggerContainer(0.1, 0.2)}
+        variants={staggerContainer(0.1, 1.2)}
         initial="hidden"
-        whileInView="show"
+        animate="show"
         viewport={{ once: true, amount: 0.25 }}
         className="space-y-6"
       >
@@ -140,19 +142,14 @@ export default function Home() {
             variants={itemVariants}
             className="flex items-start gap-4 transition-all duration-300 md:items-center md:gap-6 hover:scale-105"
           >
-            <div className="relative flex-shrink-0 w-12 h-12 border-2 rounded-md border-accent-gray">
-              <a
-                href={exp.link}
-                target="_blank"
-                className="block w-full h-full"
-              >
+            <div className="relative flex-shrink-0 border-2 rounded-md border-accent-gray">
+              <a href={exp.link} target="_blank" className="block">
                 <NextImage
                   src={exp.icon}
                   alt={exp.name}
                   width={48}
                   height={48}
                   className="object-cover rounded-md"
-                  style={{ width: "100%", height: "100%" }}
                 />
               </a>
             </div>
@@ -173,9 +170,9 @@ export default function Home() {
 
       {/* Education */}
       <motion.div
-        variants={staggerContainer(0.1, 0.2)}
+        variants={staggerContainer(0.1, 1.7)}
         initial="hidden"
-        whileInView="show"
+        animate="show"
         viewport={{ once: true, amount: 0.25 }}
         className="flex items-center gap-6 mt-10 transition-all duration-300 hover:scale-105"
       >

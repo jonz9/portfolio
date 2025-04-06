@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { staggerContainer } from "@/utils/motion";
 import { ProjectsList } from "@/data/index";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa6";
 
 const Projects = () => {
   const itemVariants = {
@@ -13,15 +13,18 @@ const Projects = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <motion.div
       variants={staggerContainer(0.1, 0.5)}
       initial="hidden"
       animate="show"
-      className="flex flex-col min-h-screen gap-8 my-10"
+      viewport={{ once: true, amount: 0.3 }}
+      className="flex flex-col gap-8 my-10"
     >
       <motion.h1
-        variants={itemVariants}
+        variants={shouldReduceMotion ? undefined : itemVariants}
         className="mt-10 mb-4 text-xl font-mediu"
       >
         just creating to see what I like.
@@ -29,14 +32,19 @@ const Projects = () => {
 
       <div className="flex flex-col gap-18">
         {ProjectsList.map((project, id) => (
-          <motion.div key={id} variants={itemVariants} className="w-full">
-            <div className="relative w-full h-[40vh] mb-4 overflow-hidden rounded-lg bg-muted">
+          <motion.div
+            key={id}
+            variants={shouldReduceMotion ? undefined : itemVariants}
+            className="w-full"
+          >
+            <div className="relative w-full h-[30vh] md:h-[40vh] mb-4 overflow-hidden bg-muted">
               {project.image ? (
                 <Image
                   src={project.image}
                   alt={project.name}
                   fill
-                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover transition-transform rounded-lg border-1 border-accent-gray duration-400 hover:scale-105"
                   priority={id === 0}
                 />
               ) : (
@@ -70,14 +78,15 @@ const Projects = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      duration: 0.3,
-                      delay: 0.9 + 0.15 * index,
-                      type: "spring",
-                      stiffness: 100,
+                      duration: 0.15,
+                      delay: 0.9 + 0.1 * index,
+                      ease: "easeOut",
+                      // type: "spring",
+                      // stiffness: 100,
                     }}
                     whileHover={{
                       scale: 1.1,
-                      rotate: [0, 6, 0, -6, 0],
+                      // rotate: [0, 6, 0, -6, 0],
                       transition: { duration: 0.5 },
                     }}
                   >

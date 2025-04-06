@@ -49,62 +49,79 @@ const Photography = () => {
   }, [theme.theme]);
 
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-  const [isLottieLoaded, setIsLottieLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(
+    new Set<number>()
+  );
   const imageCache = useRef<string[] | null>(null);
 
-  const fetchPhotos = async () => {
-    setIsLoading(true);
-    const { data, error } = await supabase.storage
-      .from("flicks")
-      .list("flicks", { limit: 100 });
-
-    if (error) {
-      console.error("Error fetching photos:", error);
-      setIsLoading(false);
-      return [];
-    }
-
-    const urls: string[] = [];
-
-    for (const image of data) {
-      const { data: urlData } = await supabase.storage
-        .from("flicks")
-        .createSignedUrl(`flicks/${image.name}`, 60 * 60 * 24 * 30);
-
-      if (urlData?.signedUrl) {
-        urls.push(urlData.signedUrl);
-      }
-    }
-
-    setImageUrls(urls);
-    setIsLoading(false);
-    return urls;
+  const handleImageLoad = (index: number) => {
+    setLoadedImages((prev) => new Set(prev).add(index));
   };
 
-  useEffect(() => {
-    const preloadLottie = async () => {
-      try {
-        await import("lottie-react");
-        setIsLottieLoaded(true);
-      } catch (error) {
-        console.error("Error preloading Lottie:", error);
-      }
-    };
-    preloadLottie();
-  }, []);
-
-  useEffect(() => {
+  const fetchPhotos = async () => {
     if (imageCache.current) {
       setImageUrls(imageCache.current);
       setIsLoading(false);
       return;
     }
 
-    fetchPhotos().then((urls) => {
-      imageCache.current = urls || [];
-    });
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.storage
+        .from("flicks")
+        .list("flicks", { limit: 100 });
+
+      if (error) throw error;
+
+      const urls: string[] = [];
+      const batchSize = 10;
+
+      for (let i = 0; i < data.length; i += batchSize) {
+        const batch = data.slice(i, i + batchSize);
+        const batchUrls = await Promise.all(
+          batch.map(async (image) => {
+            const { data: urlData } = await supabase.storage
+              .from("flicks")
+              .createSignedUrl(`flicks/${image.name}`, 60 * 60 * 24 * 30);
+            return urlData?.signedUrl || null;
+          })
+        );
+
+        const validUrls = batchUrls.filter(
+          (url): url is string => url !== null
+        );
+        urls.push(...validUrls);
+        setImageUrls((prev) => [...prev, ...validUrls]);
+
+        if (i === 0) {
+          // Preload first 6 images
+          const firstBatch = validUrls.slice(0, 6);
+          await Promise.all(
+            firstBatch.map((url, index) => {
+              return new Promise<void>((resolve) => {
+                const img = new window.Image();
+                img.src = url;
+                img.onload = () => {
+                  handleImageLoad(index);
+                  resolve();
+                };
+              });
+            })
+          );
+          setIsLoading(false);
+        }
+      }
+
+      imageCache.current = urls;
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPhotos();
   }, []);
 
   return (
@@ -133,17 +150,13 @@ const Photography = () => {
                 }
               }}
             >
-              {isLottieLoaded ? (
-                <Lottie
-                  lottieRef={camRef}
-                  animationData={camAnimationData}
-                  loop={false}
-                  style={{ width: 40, height: 40 }}
-                  className="sm:w-[50px] sm:h-[50px] md:w-[60px] md:h-[60px]"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-md bg-muted animate-pulse sm:w-12 sm:h-12" />
-              )}
+              <Lottie
+                lottieRef={camRef}
+                animationData={camAnimationData}
+                loop={false}
+                style={{ width: 40, height: 40 }}
+                className="sm:w-[50px] sm:h-[50px] md:w-[60px] md:h-[60px]"
+              />
               <span className="text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
                 Shots of Everything
               </span>
@@ -190,7 +203,7 @@ const Photography = () => {
           </motion.div>
         )}
 
-        {/* Photo grid */}
+        {/* Photo grid with progressive loading */}
         {!isLoading && (
           <motion.div
             variants={itemVariants}
@@ -201,29 +214,24 @@ const Photography = () => {
                 key={index}
                 className="relative overflow-hidden rounded-lg break-inside-avoid bg-muted"
                 initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                animate={{
+                  opacity: loadedImages.has(index) ? 1 : 0.3,
+                  scale: 1,
+                }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <motion.div
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                >
-                  <Image
-                    src={url}
-                    alt="shot on a7iv"
-                    width={800}
-                    height={600}
-                    className="object-cover w-full h-auto transition-opacity duration-300 rounded-lg opacity-30"
-                    loading="eager"
-                    loader={({ src }) => src}
-                    onLoadingComplete={(img) => {
-                      img.classList.remove("opacity-30");
-                    }}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </motion.div>
+                <Image
+                  src={url}
+                  alt="shot on a7iv"
+                  width={800}
+                  height={600}
+                  className="object-cover w-full h-auto transition-opacity duration-300 rounded-lg"
+                  loading={index < 6 ? "eager" : "lazy"}
+                  priority={index < 6}
+                  onLoadingComplete={() => handleImageLoad(index)}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
               </motion.div>
             ))}
           </motion.div>
