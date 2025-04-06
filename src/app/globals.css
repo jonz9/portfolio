@@ -13,6 +13,7 @@
     --accent: #d4af37;
     --accent-light: #e6d5a7;
     --accent-dark: #b8860b;
+    --accent-gray: #888888;
 
     /* UI colors */
     --primary: #ffffff;
@@ -33,6 +34,8 @@
     /* Techno dark theme */
     --background: #0a0c12;
     --foreground: #f5f7fa;
+
+    --accent-gray: #222222;
 
     /* UI colors */
     --primary: #222222;

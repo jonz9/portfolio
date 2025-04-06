@@ -54,7 +54,7 @@ const Photo = memo(() => {
           className="relative w-[99px] h-[99px] lg:w-[119px] lg:h-[119px] mix-blend-darken dark:mix-blend-lighten"
         >
           <Image
-            src="/static/images/pfp.png"
+            src="/static/images/pfp.jpeg"
             priority
             quality={100}
             alt="photo"

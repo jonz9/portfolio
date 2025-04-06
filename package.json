@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@heroui/avatar": "^2.2.12",
     "@heroui/chip": "^2.2.12",
     "@heroui/image": "^2.2.10",
+    "@heroui/input": "^2.4.16",
     "@heroui/kbd": "^2.2.12",
     "@heroui/modal": "^2.2.13",
     "@heroui/react": "^2.7.5",

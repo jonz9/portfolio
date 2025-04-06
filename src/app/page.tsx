@@ -5,14 +5,19 @@ import { motion } from "framer-motion";
 import Image from "@heroui/react";
 import NextImage from "next/image";
 import Photo from "@/components/PFP";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LottieRefCurrentProps } from "lottie-react";
-import resumeBlack from "../../public/static/icons/resume-black.json";
-import resumeWhite from "../../public/static/icons/resume-white.json";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
+import resumeWhite from "../../public/static/icons/resume-white.json";
+import resumeBlack from "../../public/static/icons/resume-black.json";
 
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
+  ),
+});
 
 export default function Home() {
   const itemVariants = {
@@ -24,7 +29,22 @@ export default function Home() {
 
   // Resume Button
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const [resumeAnimationData, setResumeAnimationData] = useState(null);
+
+  useEffect(() => {
+    const loadLottie = async () => {
+      const file =
+        theme.theme === "dark" ? "resume-white.json" : "resume-black.json";
+      const response = await fetch(`/static/icons/${file}`);
+      const json = await response.json();
+      setResumeAnimationData(json);
+    };
+
+    loadLottie();
+  }, [theme.theme]);
+
   const resume = theme.theme === "dark" ? resumeWhite : resumeBlack;
+
   const openResume = () => {
     window.open("/static/files/JohnZhangResume.pdf", "_blank");
   };
@@ -49,7 +69,6 @@ export default function Home() {
           <motion.li
             key={item.text}
             variants={itemVariants}
-            // Adding custom delay based on index for more pronounced staggering
             transition={{ delay: index * 0.1 }}
             className="transition-all duration-300 hover:pl-2"
           >
@@ -85,7 +104,7 @@ export default function Home() {
         >
           <Lottie
             lottieRef={lottieRef}
-            animationData={resume}
+            animationData={resumeAnimationData}
             loop={false}
             style={{ width: 30, height: 30 }}
           />
@@ -94,51 +113,59 @@ export default function Home() {
         <Photo />
       </motion.div>
 
-      {/* Experience & Education */}
-      <motion.div variants={itemVariants} transition={{ delay: 0.8 }}>
-        <h2 className="my-8 font-bold text-md">Experience</h2>
-        <div className="space-y-6">
-          {Experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              transition={{ delay: index * 0.1 }}
-              className="flex items-center gap-6 transition-all duration-300 hover:scale-105"
-            >
-              <div className="relative w-12 h-12 border-2 rounded-md">
-                <a href={exp.link} target="_blank">
-                  <NextImage
-                    src={exp.icon}
-                    alt={exp.name}
-                    fill
-                    className="object-cover rounded-md"
-                  />
-                </a>
+      {/* Experience */}
+      <motion.div
+        id="experiences"
+        variants={staggerContainer(0.1, 0.2)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
+        className="space-y-6"
+      >
+        <motion.h2 variants={itemVariants} className="my-8 font-bold text-md">
+          Experience
+        </motion.h2>
+        {Experiences.map((exp, index) => (
+          <motion.div
+            key={index}
+            variants={itemVariants}
+            className="flex items-center gap-6 transition-all duration-300 hover:scale-105"
+          >
+            <div className="relative w-12 h-12 border-2 rounded-md border-accent-gray">
+              <a href={exp.link} target="_blank">
+                <NextImage
+                  src={exp.icon}
+                  alt={exp.name}
+                  fill
+                  className="object-cover rounded-md"
+                />
+              </a>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <h3 className="font-medium">{exp.name}</h3>
+              <div className="flex items-center gap-3">
+                <p className="text-sm text-muted-foreground">{exp.jobTitle}</p>
+                <div className="w-1 h-1 bg-gray-500 rounded-full" />
+                <p className="text-sm text-muted-foreground">{exp.date}</p>
               </div>
-              <div className="flex flex-col gap-0.5">
-                <h3 className="font-medium">{exp.name}</h3>
-                <div className="flex items-center gap-3">
-                  <p className="text-sm text-muted-foreground">
-                    {exp.jobTitle}
-                  </p>
-                  <div className="w-1 h-1 bg-gray-500 rounded-full" />
-                  <p className="text-sm text-muted-foreground">{exp.date}</p>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {exp.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              <p className="text-sm text-muted-foreground">{exp.description}</p>
+            </div>
+          </motion.div>
+        ))}
       </motion.div>
 
+      {/* Education */}
       <motion.div
-        variants={itemVariants}
-        transition={{ delay: 0.9 }}
+        variants={staggerContainer(0.1, 0.2)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
         className="flex items-center gap-6 mt-10 transition-all duration-300 hover:scale-105"
       >
-        <div className="relative w-12 h-12 border-2 rounded-md">
+        <motion.div
+          variants={itemVariants}
+          className="relative w-12 h-12 border-2 rounded-md"
+        >
           <a href={Education.link} target="_blank">
             <NextImage
               src={Education.icon}
@@ -147,13 +174,13 @@ export default function Home() {
               className="object-cover rounded-md"
             />
           </a>
-        </div>
-        <div className="flex flex-col gap-0.5">
+        </motion.div>
+        <motion.div variants={itemVariants} className="flex flex-col gap-0.5">
           <h3 className="font-medium">{Education.name}</h3>
           <div className="flex items-center gap-3">
             <p className="text-sm text-muted-foreground">{Education.program}</p>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   );

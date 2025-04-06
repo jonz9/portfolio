@@ -8,8 +8,8 @@ import { LottieRefCurrentProps } from "lottie-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
-import camWhite from "../../../public/static/icons/cam-white.json";
-import camBlack from "../../../public/static/icons/cam-black.json";
+import { CameraGear } from "@/data";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const Lottie = dynamic(() => import("lottie-react"), {
   ssr: false,
@@ -17,6 +17,13 @@ const Lottie = dynamic(() => import("lottie-react"), {
     <div className="w-10 h-10 rounded-full bg-muted animate-pulse" />
   ),
 });
+
+// supabase client
+const supabaseUrl = `https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co`;
+const supabase = createClient(
+  supabaseUrl,
+  `${process.env.NEXT_PUBLIC_SUPABASE_API_KEY}`
+);
 
 const Photography = () => {
   const itemVariants = {
@@ -28,19 +35,24 @@ const Photography = () => {
 
   // cam icon
   const camRef = useRef<LottieRefCurrentProps>(null);
-  const cam = theme.theme === "dark" ? camWhite : camBlack;
+  const [camAnimationData, setCamAnimationData] = useState(null);
+  const cam = theme.theme === "dark" ? "cam-white.json" : "cam-black.json";
+
+  useEffect(() => {
+    const loadLottie = async () => {
+      const file = theme.theme === "dark" ? "cam-white.json" : "cam-black.json";
+      const response = await fetch(`/static/icons/${file}`);
+      const json = await response.json();
+      setCamAnimationData(json);
+    };
+    loadLottie();
+  }, [theme.theme]);
+
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isLottieLoaded, setIsLottieLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const imageCache = useRef<string[] | null>(null);
-
-  // supabase client
-  const supabaseUrl = `https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co`;
-  const supabase = createClient(
-    supabaseUrl,
-    `${process.env.NEXT_PUBLIC_SUPABASE_API_KEY}`
-  );
 
   const fetchPhotos = async () => {
     setIsLoading(true);
@@ -124,7 +136,7 @@ const Photography = () => {
               {isLottieLoaded ? (
                 <Lottie
                   lottieRef={camRef}
-                  animationData={cam}
+                  animationData={camAnimationData}
                   loop={false}
                   style={{ width: 60, height: 60 }}
                 />
@@ -134,19 +146,27 @@ const Photography = () => {
               Shots of Everything
             </div>
             <ul className="flex flex-col items-end text-sm font-light">
-              {["sony a7iv", "sony 85mm f1.8", "sigma 24-70mm f2.8"].map(
-                (item, index) => (
-                  <motion.li
-                    key={item}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 1 + index * 0.25 }}
-                    className="transition-all duration-300 hover:translate-x-[-5px]"
+              {CameraGear.map((item, index) => (
+                <motion.li
+                  key={item.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 1 + index * 0.25 }}
+                  className="transition-all duration-300 hover:translate-x-[-5px] group"
+                >
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    className="flex items-center gap-1"
                   >
-                    {item}
-                  </motion.li>
-                )
-              )}
+                    {item.name}
+                    <FaExternalLinkAlt
+                      size={12}
+                      className="hidden ml-1 group-hover:inline-block text-accent"
+                    />
+                  </a>
+                </motion.li>
+              ))}
             </ul>
           </div>
         </motion.h1>

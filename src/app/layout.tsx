@@ -54,7 +54,7 @@ export default function RootLayout({
         <div className="fixed inset-0">
           <DotPattern className={cn("opacity-20")} glow={true} />
         </div>
-        <div className="relative flex flex-col min-h-screen antialiased w-[90%] sm:w-[70%] md:w-[35%] 2xl:w-[30%] mx-auto py-[10em] sm:py-[8em] md:py-[6em] lg:py-[4em]">
+        <div className="relative flex flex-col min-h-screen antialiased w-[90%] sm:w-[70%] md:w-[50%] lg:w-[45%] xl:w-[35%] 2xl:w-[30%] mx-auto py-[10em] sm:py-[8em] md:py-[6em] lg:py-[4em]">
           <Providers
             attribute="class"
             defaultTheme="dark"
