@@ -90,12 +90,17 @@ export default function CommandPalette() {
         </button>
       </div>
       <Modal
-        backdrop={"blur"}
         isOpen={isOpen}
         onClose={onClose}
         classNames={{
-          base: "max-w-xl mx-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-h-[70vh] bg-background border-2 border-gray-700 rounded-lg flex flex-col overflow-hidden",
-          backdrop: "bg-background/80",
+          backdrop: "bg-[#f9eddc]/80 dark:bg-[#0a0c12]/80",
+          base: `
+            backdrop-blur-md max-w-xl mx-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+            max-h-[70vh] rounded-2xl overflow-hidden flex flex-col
+            bg-stone-800/10 dark:bg-stone-500/20
+            border border-white/20 dark:border-black/30
+            shadow-xl transition-all duration-300
+          `,
           closeButton: "hidden",
         }}
       >
@@ -140,7 +145,7 @@ export default function CommandPalette() {
                                 command.action();
                                 onClose();
                               }}
-                              className="flex items-center justify-between w-full px-2 py-2 text-sm transition-all duration-150 rounded-md hover:bg-muted-foreground/50 focus:outline-none"
+                              className="flex items-center justify-between w-full px-2 py-2 text-sm transition-all duration-150 rounded-md hover:bg-stone-500 dark:hover:bg-stone-500 hover:text-white focus:outline-none"
                             >
                               <span>{command.name}</span>
                               {command.shortcut && (

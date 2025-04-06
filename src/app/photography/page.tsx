@@ -108,20 +108,20 @@ const Photography = () => {
   }, []);
 
   return (
-    <div className="relative left-[50%] right-[50%] mx-[-50vw] w-screen pb-15 min-h-screen">
+    <div className="relative left-[50%] right-[50%] mx-[-50vw] w-screen pb-15 min-h-screen mt-10">
       <motion.div
         variants={staggerContainer(0.1, 0.2)}
         initial="hidden"
         animate="show"
-        className="flex flex-col gap-8 px-4 my-10 md:px-48 lg:px-60"
+        className="flex flex-col gap-6 px-4 py-8 sm:gap-8 sm:px-8 md:px-12 lg:px-24 xl:px-32"
       >
         <motion.h1
           variants={itemVariants}
-          className="flex flex-row items-center w-full max-w-screen-xl gap-2 mx-auto my-4 text-xl font-bold transition-all duration-300 hover:cursor-pointer hover:pl-4"
+          className="flex flex-col items-start w-full max-w-screen-xl gap-4 mx-auto sm:flex-row sm:items-center"
         >
-          <div className="flex items-center justify-between w-full">
+          <div className="flex flex-col items-start justify-between w-full gap-4 sm:items-center sm:flex-row">
             <div
-              className="flex items-center gap-3 text-6xl font-bold"
+              className="flex items-center gap-2 sm:gap-3"
               onMouseEnter={() => {
                 if (camRef.current) {
                   camRef.current.goToAndPlay(0);
@@ -138,14 +138,17 @@ const Photography = () => {
                   lottieRef={camRef}
                   animationData={camAnimationData}
                   loop={false}
-                  style={{ width: 60, height: 60 }}
+                  style={{ width: 40, height: 40 }}
+                  className="sm:w-[50px] sm:h-[50px] md:w-[60px] md:h-[60px]"
                 />
               ) : (
-                <div className="rounded-md w-60 h-60 bg-muted animate-pulse" />
+                <div className="w-10 h-10 rounded-md bg-muted animate-pulse sm:w-12 sm:h-12" />
               )}
-              Shots of Everything
+              <span className="text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+                Shots of Everything
+              </span>
             </div>
-            <ul className="flex flex-col items-end text-sm font-light">
+            <ul className="flex flex-wrap items-start gap-2 text-xs font-light sm:flex-col sm:items-end sm:text-sm sm:gap-1">
               {CameraGear.map((item, index) => (
                 <motion.li
                   key={item.name}
@@ -161,8 +164,8 @@ const Photography = () => {
                   >
                     {item.name}
                     <FaExternalLinkAlt
-                      size={12}
-                      className="hidden ml-1 group-hover:inline-block text-accent"
+                      size={10}
+                      className="hidden ml-1 group-hover:inline-block text-accent sm:size-3"
                     />
                   </a>
                 </motion.li>
@@ -176,11 +179,13 @@ const Photography = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center justify-center min-h-[50vh]"
+            className="flex items-center justify-center min-h-[40vh] sm:min-h-[50vh]"
           >
             <div className="flex flex-col items-center gap-4">
-              <div className="w-16 h-16 border-4 rounded-full border-muted-foreground/20 border-t-muted-foreground animate-spin" />
-              <p className="text-muted-foreground">Loading photos...</p>
+              <div className="w-12 h-12 border-4 rounded-full border-muted-foreground/20 border-t-muted-foreground animate-spin sm:w-16 sm:h-16" />
+              <p className="text-sm text-muted-foreground sm:text-base">
+                Loading photos...
+              </p>
             </div>
           </motion.div>
         )}
@@ -189,7 +194,7 @@ const Photography = () => {
         {!isLoading && (
           <motion.div
             variants={itemVariants}
-            className="gap-4 px-2 space-y-4 columns-1 sm:columns-2 lg:columns-3"
+            className="gap-2 space-y-2 columns-1 sm:gap-3 sm:space-y-3 sm:columns-2 lg:columns-3"
           >
             {imageUrls.map((url, index) => (
               <motion.div
@@ -216,7 +221,7 @@ const Photography = () => {
                     onLoadingComplete={(img) => {
                       img.classList.remove("opacity-30");
                     }}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </motion.div>
               </motion.div>

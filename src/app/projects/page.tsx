@@ -20,7 +20,10 @@ const Projects = () => {
       animate="show"
       className="flex flex-col min-h-screen gap-8 my-10"
     >
-      <motion.h1 variants={itemVariants} className="my-4 text-xl font-mediu">
+      <motion.h1
+        variants={itemVariants}
+        className="mt-10 mb-4 text-xl font-mediu"
+      >
         just creating to see what I like.
       </motion.h1>
 

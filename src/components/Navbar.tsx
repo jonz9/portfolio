@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import ThemeSwitch from "@/components/ThemeSwitcher";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 const navItems = [
   {
@@ -32,10 +34,12 @@ const NavLink = memo(
     href,
     label,
     mounted,
+    onClick,
   }: {
     href: string;
     label: string;
     mounted: boolean;
+    onClick?: () => void;
   }) => {
     const pathname = usePathname();
     const isActive = pathname === href;
@@ -43,6 +47,7 @@ const NavLink = memo(
     return (
       <Link
         href={href}
+        onClick={onClick}
         className={cn(
           "font-medium text-md relative transition-opacity duration-300",
           "after:absolute after:bottom-0 after:left-0",
@@ -65,6 +70,7 @@ const Navbar = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [signature, setSignature] = useState("signature-black.png");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const preloadImages = () => {
@@ -87,6 +93,10 @@ const Navbar = () => {
     }
   }, [resolvedTheme, mounted]);
 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div className="flex items-center justify-between">
       <a href="/" className="flex items-center gap-2">
@@ -100,7 +110,9 @@ const Navbar = () => {
           style={{ opacity: mounted ? 1 : 0 }}
         />
       </a>
-      <div className="flex items-center gap-4">
+
+      {/* Desktop Navigation */}
+      <div className="items-center hidden gap-4 md:flex">
         {navItems.map((item) => (
           <NavLink
             key={item.href}
@@ -118,6 +130,68 @@ const Navbar = () => {
           <CommandPalette />
         </div>
       </div>
+
+      {/* Mobile Menu Button */}
+      <button
+        className="p-2 transition-colors rounded-md md:hidden hover:bg-muted"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        {isMobileMenuOpen ? (
+          <X className="w-6 h-6" />
+        ) : (
+          <Menu className="w-6 h-6" />
+        )}
+      </button>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden"
+              onClick={closeMobileMenu}
+            />
+
+            {/* Menu Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
+              className="fixed top-0 right-0 z-50 w-64 h-full border-l bg-background border-muted md:hidden"
+            >
+              <div className="flex flex-col h-full p-6">
+                <div className="flex items-center justify-between mb-8">
+                  <ThemeSwitch />
+                  <button
+                    onClick={closeMobileMenu}
+                    className="p-2 transition-colors rounded-md hover:bg-muted"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+                <nav className="flex flex-col gap-6">
+                  {navItems.map((item) => (
+                    <NavLink
+                      key={item.href}
+                      href={item.href}
+                      label={item.label}
+                      mounted={mounted}
+                      onClick={closeMobileMenu}
+                    />
+                  ))}
+                </nav>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

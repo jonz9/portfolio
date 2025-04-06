@@ -2,7 +2,7 @@
 import { staggerContainer } from "@/utils/motion";
 import { About, Education, Experiences } from "@/data/index";
 import { motion } from "framer-motion";
-import Image from "@heroui/react";
+import Image from "next/image";
 import NextImage from "next/image";
 import Photo from "@/components/PFP";
 import { useEffect, useRef, useState } from "react";
@@ -70,7 +70,7 @@ export default function Home() {
             key={item.text}
             variants={itemVariants}
             transition={{ delay: index * 0.1 }}
-            className="transition-all duration-300 hover:pl-2"
+            className="text-sm transition-all duration-300 md:text-base hover:pl-2"
           >
             {item.text}
           </motion.li>
@@ -80,37 +80,43 @@ export default function Home() {
       {/* Resume & Picture */}
       <motion.div
         variants={itemVariants}
-        className="relative flex flex-row items-center justify-between px-8 py-5 mt-10 rounded-md"
-        style={{
-          background: "transparent",
-          position: "relative",
-        }}
+        className="relative flex flex-col items-center justify-center w-full gap-8 mt-4 md:mt-10 md:flex-row"
       >
-        {/* Top-left corner */}
-        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 rounded-tl-md"></div>
-        {/* Bottom-right corner */}
-        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 rounded-br-md"></div>
         <button
           onMouseEnter={() => lottieRef.current?.goToAndPlay(0)}
           onMouseLeave={() => lottieRef.current?.goToAndStop(0)}
           onClick={openResume}
-          className="flex items-center justify-between gap-2 px-20 py-6 transition-all duration-300 border-2 rounded-md cursor-pointer hover:scale-105 bg-gradient-to-br from-black to-gray-900 hover:border-gray-400"
-          style={{
-            backgroundImage:
-              "url('https://www.transparenttextures.com/patterns/asfalt-light.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+          className="group relative flex items-center gap-4 px-6 py-4 transition-all w-full duration-300 rounded-xl cursor-pointer hover:scale-[1.02] bg-background border border-accent/20 hover:border-accent/40"
         >
+          <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-accent/5 to-transparent rounded-xl group-hover:opacity-100" />
           <Lottie
             lottieRef={lottieRef}
             animationData={resumeAnimationData}
             loop={false}
-            style={{ width: 30, height: 30 }}
+            style={{ width: 24, height: 24 }}
           />
-          <h1 className="text-lg">My Resume</h1>
+          <div className="flex flex-col items-start">
+            <span className="text-sm font-medium text-muted-foreground">
+              Open & Download
+            </span>
+            <div className="flex items-center gap-6">
+              <h1 className="text-lg font-semibold">Resume</h1>
+              <svg
+                className="w-5 h-5 transition-opacity duration-300 opacity-0 text-accent right-4 group-hover:opacity-100"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </div>
+          </div>
         </button>
-        <Photo />
       </motion.div>
 
       {/* Experience */}
@@ -122,33 +128,44 @@ export default function Home() {
         viewport={{ once: true, amount: 0.25 }}
         className="space-y-6"
       >
-        <motion.h2 variants={itemVariants} className="my-8 font-bold text-md">
+        <motion.h2
+          variants={itemVariants}
+          className="my-4 font-bold md:my-8 text-md"
+        >
           Experience
         </motion.h2>
         {Experiences.map((exp, index) => (
           <motion.div
             key={index}
             variants={itemVariants}
-            className="flex items-center gap-6 transition-all duration-300 hover:scale-105"
+            className="flex items-start gap-4 transition-all duration-300 md:items-center md:gap-6 hover:scale-105"
           >
-            <div className="relative w-12 h-12 border-2 rounded-md border-accent-gray">
-              <a href={exp.link} target="_blank">
+            <div className="relative flex-shrink-0 w-12 h-12 border-2 rounded-md border-accent-gray">
+              <a
+                href={exp.link}
+                target="_blank"
+                className="block w-full h-full"
+              >
                 <NextImage
                   src={exp.icon}
                   alt={exp.name}
-                  fill
+                  width={48}
+                  height={48}
                   className="object-cover rounded-md"
+                  style={{ width: "100%", height: "100%" }}
                 />
               </a>
             </div>
             <div className="flex flex-col gap-0.5">
-              <h3 className="font-medium">{exp.name}</h3>
-              <div className="flex items-center gap-3">
+              <h3 className="text-sm font-medium md:text-base">{exp.name}</h3>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3">
                 <p className="text-sm text-muted-foreground">{exp.jobTitle}</p>
-                <div className="w-1 h-1 bg-gray-500 rounded-full" />
+                <div className="hidden w-1 h-1 bg-gray-500 rounded-full sm:block" />
                 <p className="text-sm text-muted-foreground">{exp.date}</p>
               </div>
-              <p className="text-sm text-muted-foreground">{exp.description}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {exp.description}
+              </p>
             </div>
           </motion.div>
         ))}

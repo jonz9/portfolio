@@ -35,16 +35,14 @@ export const About = {
   bio: [
     {
       text: "NLP Research @ Alberta Machine Intelligence Institute (Amii)",
-      itemIcon: "🔍",
     },
-    { text: "Drone Autonomy @ UWARG", itemIcon: "🚁" },
+    { text: "Drone Autonomy @ UWARG" },
     {
       text: "Building a voxel engine to render 3D objects in voxel space",
-      itemIcon: "🎨",
     },
-    { text: "Shooting RAWs at night", itemIcon: "🌌" },
-    { text: "Running for a plate sometimes", itemIcon: "🏃‍♂️" },
-    { text: "Computer Engineering @ University of Waterloo", itemIcon: "💻" },
+    { text: "Shooting RAWs at night" },
+    { text: "Running for a plate sometimes" },
+    { text: "Computer Engineering @ University of Waterloo" },
   ],
 };
 
@@ -159,7 +157,7 @@ export const Experiences = [
     link: "https://amii.ca/",
     jobTitle: "ML Research Assistant",
     date: "Jan 2025 - Present",
-    description: "Conducting research in Computational Linguistics.",
+    description: "Conducting research in Computational Linguistics and NER.",
   },
   {
     name: "UWARG",
@@ -167,11 +165,11 @@ export const Experiences = [
     link: "https://www.uwarg.com/",
     jobTitle: "Autonomy Software Developer",
     date: "May 2024 - Present",
-    description: "Developing autonomy software for drones.",
+    description: "Developing autonomy and communication software for drones.",
   },
   {
     name: "H.O.M.E. AI",
-    icon: "/static/images/masiv.png",
+    icon: "/static/images/home.png",
     link: "https://www.h-o-m-e.ai/",
     jobTitle: "Full Stack Developer",
     date: "Jan 2025 - Feb 2025",
