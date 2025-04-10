@@ -1,56 +1,38 @@
 "use client";
-import { About } from "@/data";
-import { motion, AnimatePresence } from "framer-motion";
-import React, { useState } from "react";
+import { Socials } from "@/data/about";
+import React from "react";
 
 const Footer = () => {
-  const [hoveredSocial, setHoveredSocial] = useState<string | null>(null);
-
   return (
-    <div className="flex items-center justify-between">
-      <p className="text-sm text-muted-foreground lg:text-md">
-        John Zhang © 2025
-      </p>
-      <div className="flex gap-4 items-right">
-        {About.socials.map((social) => (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href={social.url}
-            key={social.name}
-            className="relative flex items-center"
-            onMouseEnter={() => setHoveredSocial(social.name)}
-            onMouseLeave={() => setHoveredSocial(null)}
-          >
-            <AnimatePresence mode="wait">
-              {hoveredSocial === social.name ? (
-                <motion.span
-                  key="expanded"
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center gap-2 text-sm font-bold text-muted-foreground"
-                >
-                  <social.icon size={22} className="text-accent" />
-                  {social.name}
-                </motion.span>
-              ) : (
-                <motion.div
-                  key="icon"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <social.icon size={22} color="text-muted-foreground" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </a>
-        ))}
+    <footer className="w-full pt-3 border-t border-slate-500">
+      <div className="container mx-auto flex items-center justify-between">
+        <p className="text-md text-muted-foreground">John Zhang © 2025</p>
+        <div className="flex gap-6 items-center">
+          {Socials.map((social) => {
+            const Icon = social.icon;
+            return (
+              <a
+                key={social.name}
+                target="_blank"
+                rel="noopener noreferrer"
+                href={social.url}
+                className="group relative flex items-center"
+              >
+                <div className="flex items-center gap-4">
+                  <span className="hidden group-hover:block left-8 whitespace-nowrap text-sm font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out translate-x-0 group-hover:translate-x-1">
+                    {social.name}
+                  </span>
+                  <Icon
+                    size={20}
+                    className="text-muted-foreground transition-all duration-300 ease-out group-hover:text-accent group-hover:scale-110"
+                  />
+                </div>
+              </a>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

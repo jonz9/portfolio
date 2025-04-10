@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Kbd } from "@heroui/react";
-import { Modal, ModalContent, useDisclosure } from "@heroui/react";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Kbd } from "@heroui/kbd";
+import { Modal, ModalContent, useDisclosure } from "@heroui/modal";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import React from "react";
+import React, { useRef } from "react";
 import { Command, getCommands } from "./Commands";
+import { Search } from "lucide-react";
 
 export default function CommandPalette() {
   const [os, setOS] = useState("unknown");
@@ -19,6 +19,8 @@ export default function CommandPalette() {
   const filteredCommands = commands.filter((command) =>
     command.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  const focusedCommand = useRef<Command | null>(null);
 
   const groupedCommands = filteredCommands.reduce((acc, command) => {
     if (!acc[command.section]) {
@@ -35,18 +37,15 @@ export default function CommandPalette() {
     setOS(detectOS());
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Handle Cmd/Ctrl + K
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         isOpen ? onClose() : onOpen();
       }
 
-      // Handle Escape
       if (e.key === "Escape" && isOpen) {
         onClose();
       }
 
-      // Handle shift + letter combinations
       if (
         isOpen &&
         e.shiftKey &&
@@ -111,7 +110,7 @@ export default function CommandPalette() {
               <div className="flex-shrink-0 p-4">
                 <div className="flex items-center justify-between gap-3 px-3 py-2 align-top border rounded-lg bg-muted/50">
                   <div className="flex items-center w-full gap-3">
-                    <MagnifyingGlassIcon className="w-5 h-5 text-muted-foreground" />
+                    <Search className="w-5 h-5 text-muted-foreground" />
                     <input
                       placeholder="Search commands..."
                       type="text"
@@ -142,6 +141,9 @@ export default function CommandPalette() {
                             <button
                               key={command.id}
                               onClick={() => {
+                                if (command.id === "home") {
+                                  focusedCommand.current = command;
+                                }
                                 command.action();
                                 onClose();
                               }}

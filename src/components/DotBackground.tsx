@@ -45,8 +45,14 @@ export function DotPattern({
   const id = useId();
   const containerRef = useRef<SVGSVGElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
     const updateDimensions = () => {
       if (containerRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect();
@@ -54,28 +60,41 @@ export function DotPattern({
       }
     };
 
+    // Initial checks
+    checkMobile();
     updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
+
+    // Event listeners
+    window.addEventListener("resize", () => {
+      checkMobile();
+      updateDimensions();
+    });
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("resize", updateDimensions);
+    };
   }, []);
 
-  const dots = Array.from(
-    {
-      length:
-        Math.ceil(dimensions.width / width) *
-        Math.ceil(dimensions.height / height),
-    },
-    (_, i) => {
-      const col = i % Math.ceil(dimensions.width / width);
-      const row = Math.floor(i / Math.ceil(dimensions.width / width));
+  const dots = React.useMemo(() => {
+    const cols = Math.ceil(dimensions.width / width);
+    const rows = Math.ceil(dimensions.height / height);
+    const totalDots = cols * rows;
+
+    // Reduce number of dots on mobile
+    const dotCount = isMobile ? Math.floor(totalDots * 0.5) : totalDots;
+
+    return Array.from({ length: dotCount }, (_, i) => {
+      const col = i % cols;
+      const row = Math.floor(i / cols);
       return {
         x: col * width + cx,
         y: row * height + cy,
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
+        delay: isMobile ? Math.random() * 1 : Math.random() * 5,
+        duration: isMobile ? Math.random() * 1 + 0.5 : Math.random() * 3 + 2,
       };
-    }
-  );
+    });
+  }, [dimensions, width, height, cx, cy, isMobile]);
 
   return (
     <svg
@@ -101,12 +120,12 @@ export function DotPattern({
           r={cr}
           fill={glow ? `url(#${id}-gradient)` : "currentColor"}
           className="text-neutral-400/80"
-          initial={glow ? { opacity: 0.4, scale: 1 } : {}}
+          initial={glow ? { opacity: 0.4, scale: isMobile ? 1 : 1 } : {}}
           animate={
             glow
               ? {
                   opacity: [0.4, 1, 0.4],
-                  scale: [1, 1.5, 1],
+                  scale: isMobile ? [1, 1.2, 1] : [1, 1.5, 1],
                 }
               : {}
           }
@@ -117,7 +136,7 @@ export function DotPattern({
                   repeat: Infinity,
                   repeatType: "reverse",
                   delay: dot.delay,
-                  ease: "easeInOut",
+                  ease: isMobile ? "linear" : "easeInOut",
                 }
               : {}
           }

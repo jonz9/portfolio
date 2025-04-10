@@ -3,7 +3,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
-import { FiSun, FiMoon } from "react-icons/fi";
+import { Moon, Sun } from "lucide-react";
 
 const ThemeSwitch = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -33,7 +33,7 @@ const ThemeSwitch = () => {
       )}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
-      {isDark ? <FiMoon className="w-5 h-5" /> : <FiSun className="w-5 h-5" />}
+      {isDark ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
     </button>
   );
 };

@@ -8,8 +8,8 @@ import { LottieRefCurrentProps } from "lottie-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
-import { CameraGear } from "@/data";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { CameraGear } from "@/data/camera-gear";
+import { ExternalLink } from "lucide-react";
 
 const Lottie = dynamic(() => import("lottie-react"), {
   ssr: false,
@@ -167,7 +167,7 @@ const Photography = () => {
                   key={item.name}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 1 + index * 0.25 }}
+                  transition={{ duration: 0.15, delay: 1 + index * 0.15 }}
                   className="transition-all duration-300 hover:translate-x-[-5px] group"
                 >
                   <a
@@ -176,9 +176,9 @@ const Photography = () => {
                     className="flex items-center gap-1"
                   >
                     {item.name}
-                    <FaExternalLinkAlt
-                      size={10}
+                    <ExternalLink
                       className="hidden ml-1 group-hover:inline-block text-accent sm:size-3"
+                      size={10}
                     />
                   </a>
                 </motion.li>

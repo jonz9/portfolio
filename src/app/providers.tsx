@@ -2,7 +2,7 @@
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { type ThemeProviderProps } from "next-themes";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/system";
 import { useRouter } from "next/navigation";
 
 export function Providers({ children, ...props }: ThemeProviderProps) {
@@ -13,7 +13,7 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
   };
 
   return (
-    <NextUIProvider navigate={navigate}>
+    <HeroUIProvider navigate={navigate}>
       <NextThemesProvider
         attribute="class"
         defaultTheme="light"
@@ -23,6 +23,6 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
       >
         {children}
       </NextThemesProvider>
-    </NextUIProvider>
+    </HeroUIProvider>
   );
 }

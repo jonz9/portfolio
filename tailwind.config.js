@@ -1,12 +1,10 @@
-const {heroui} = require('@heroui/theme');
-// tailwind.config.js
-const { heroui } = require("@heroui/react");
+const { heroui } = require("@heroui/theme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/components/(avatar|chip|image|input|kbd|modal|spinner|toggle|form).js"
+    "./node_modules/@heroui/theme/dist/components/(avatar|chip|image|input|kbd|modal|spinner|toggle|form).js",
   ],
   darkMode: "class",
   theme: {
@@ -42,5 +40,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography"),heroui()],
+  plugins: [require("@tailwindcss/typography"), heroui()],
 };

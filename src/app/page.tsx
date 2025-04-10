@@ -1,6 +1,8 @@
 "use client";
 import { staggerContainer } from "@/utils/motion";
-import { About, Education, Experiences } from "@/data/index";
+import { About } from "@/data/about";
+import { Education } from "@/data/education";
+import { Experiences } from "@/data/experiences";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import NextImage from "next/image";
@@ -9,49 +11,101 @@ import { useEffect, useRef, useState } from "react";
 import { LottieRefCurrentProps } from "lottie-react";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
-import resumeWhite from "../../public/static/icons/resume-white.json";
-import resumeBlack from "../../public/static/icons/resume-black.json";
 
 const Lottie = dynamic(() => import("lottie-react"), {
   ssr: false,
-  loading: () => (
-    <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
-  ),
+  loading: () => null,
 });
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
+  const [resumeAnimationData, setResumeAnimationData] = useState(null);
+  const theme = useTheme();
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
+
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.1 } },
   };
 
-  const theme = useTheme();
-
-  // Resume Button
-  const lottieRef = useRef<LottieRefCurrentProps>(null);
-  const [resumeAnimationData, setResumeAnimationData] = useState(null);
+  const resumeVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.1, delay: 0.4 } },
+  };
 
   useEffect(() => {
-    const loadLottie = async () => {
-      const file =
-        theme.theme === "dark" ? "resume-white.json" : "resume-black.json";
-      const response = await fetch(`/static/icons/${file}`);
-      const json = await response.json();
-      setResumeAnimationData(json);
-    };
+    setMounted(true);
+  }, []);
 
-    loadLottie();
-  }, [theme.theme]);
+  useEffect(() => {
+    if (mounted) {
+      const loadLottie = async () => {
+        const file =
+          theme.theme === "dark" ? "resume-white.json" : "resume-black.json";
+        const response = await fetch(`/static/icons/${file}`);
+        const json = await response.json();
+        setResumeAnimationData(json);
+      };
 
-  const resume = theme.theme === "dark" ? resumeWhite : resumeBlack;
+      loadLottie();
+    }
+  }, [mounted, theme.theme]);
+
+  const resume =
+    theme.theme === "dark"
+      ? "/static/files/JohnZhangResume-dark.pdf"
+      : "/static/files/JohnZhangResume.pdf";
 
   const openResume = () => {
     window.open("/static/files/JohnZhangResume.pdf", "_blank");
   };
 
+  if (!mounted) {
+    return (
+      <div className="flex flex-col min-h-screen gap-5 my-20 items-left">
+        {/* Name Loading */}
+        <div className="h-6 w-48 bg-muted rounded animate-pulse" />
+
+        {/* Bio Loading */}
+        <div className="h-6 w-32 bg-muted rounded animate-pulse" />
+        <div className="pl-5 space-y-2">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-muted rounded-full animate-pulse" />
+              <div className="h-4 w-64 bg-muted rounded animate-pulse" />
+            </div>
+          ))}
+        </div>
+
+        {/* Resume Button Loading */}
+        <div className="relative flex flex-col items-center justify-center w-full gap-8 mt-4 md:mt-10 md:flex-row">
+          <div className="w-full h-20 bg-muted rounded-xl animate-pulse" />
+        </div>
+
+        {/* Experience Loading */}
+        <div className="space-y-6">
+          <div className="h-6 w-32 bg-muted rounded animate-pulse" />
+          {[...Array(5)].map((_, i) => (
+            <div
+              key={i}
+              className="flex items-start gap-4 md:items-center md:gap-6"
+            >
+              <div className="w-12 h-12 bg-muted rounded-md animate-pulse" />
+              <div className="flex flex-col gap-2">
+                <div className="h-4 w-48 bg-muted rounded animate-pulse" />
+                <div className="h-3 w-32 bg-muted rounded animate-pulse" />
+                <div className="h-3 w-64 bg-muted rounded animate-pulse" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div
-      variants={staggerContainer(0.1, 0.2)}
+      variants={staggerContainer(0.05, 0.1)}
       initial="hidden"
       animate="show"
       viewport={{ once: true, amount: 0.25 }}
@@ -69,8 +123,8 @@ export default function Home() {
           <motion.li
             key={item.text}
             variants={itemVariants}
-            transition={{ delay: index * 0.1 }}
-            className="text-sm transition-all duration-300 md:text-base hover:pl-2"
+            transition={{ delay: index * 0.05 }}
+            className="text-sm transition-all duration-150 md:text-base hover:text-accent hover:pl-2"
           >
             {item.text}
           </motion.li>
@@ -79,7 +133,7 @@ export default function Home() {
 
       {/* Resume & Picture */}
       <motion.div
-        variants={itemVariants}
+        variants={resumeVariants}
         initial="hidden"
         animate="show"
         className="relative flex flex-col items-center justify-center w-full gap-8 mt-4 md:mt-10 md:flex-row"
@@ -88,15 +142,17 @@ export default function Home() {
           onMouseEnter={() => lottieRef.current?.goToAndPlay(0)}
           onMouseLeave={() => lottieRef.current?.goToAndStop(0)}
           onClick={openResume}
-          className="group relative flex items-center gap-4 px-6 py-4 transition-all w-full duration-300 rounded-xl cursor-pointer hover:scale-[1.02] bg-background border border-accent/20 hover:border-accent/40"
+          className="group relative flex items-center gap-4 px-6 py-4 transition-colors duration-150 w-full rounded-xl cursor-pointer bg-background border border-accent/80 dark:border-accent/20 hover:border-accent/100 dark:hover:border-accent/40"
         >
-          <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-accent/5 to-transparent rounded-xl group-hover:opacity-100" />
-          <Lottie
-            lottieRef={lottieRef}
-            animationData={resumeAnimationData}
-            loop={false}
-            style={{ width: 24, height: 24 }}
-          />
+          <div className="absolute inset-0 transition-opacity duration-150 opacity-0 bg-gradient-to-r from-accent/5 to-transparent rounded-xl group-hover:opacity-100" />
+          {resumeAnimationData && (
+            <Lottie
+              lottieRef={lottieRef}
+              animationData={resumeAnimationData}
+              loop={false}
+              style={{ width: 24, height: 24 }}
+            />
+          )}
           <div className="flex flex-col items-start">
             <span className="text-sm font-medium text-muted-foreground">
               Open & Download
@@ -104,7 +160,7 @@ export default function Home() {
             <div className="flex items-center gap-6">
               <h1 className="text-lg font-semibold">Resume</h1>
               <svg
-                className="w-5 h-5 transition-opacity duration-300 opacity-0 text-accent right-4 group-hover:opacity-100"
+                className="w-5 h-5 transition-opacity duration-150 opacity-0 text-accent right-4 group-hover:opacity-100"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -124,7 +180,7 @@ export default function Home() {
       {/* Experience */}
       <motion.div
         id="experiences"
-        variants={staggerContainer(0.1, 1.2)}
+        variants={staggerContainer(0.05, 0.1)}
         initial="hidden"
         animate="show"
         viewport={{ once: true, amount: 0.25 }}
@@ -140,7 +196,7 @@ export default function Home() {
           <motion.div
             key={index}
             variants={itemVariants}
-            className="flex items-start gap-4 transition-all duration-300 md:items-center md:gap-6 hover:scale-105"
+            className="flex items-start gap-4 transition-all duration-150 md:items-center md:gap-6 hover:text-accent hover:scale-105"
           >
             <div className="relative flex-shrink-0 border-2 rounded-md border-accent-gray">
               <a href={exp.link} target="_blank" className="block">
@@ -150,6 +206,7 @@ export default function Home() {
                   width={48}
                   height={48}
                   className="object-cover rounded-md"
+                  priority={index < 2}
                 />
               </a>
             </div>
@@ -170,11 +227,11 @@ export default function Home() {
 
       {/* Education */}
       <motion.div
-        variants={staggerContainer(0.1, 1.7)}
+        variants={staggerContainer(0.05, 0.1)}
         initial="hidden"
         animate="show"
         viewport={{ once: true, amount: 0.25 }}
-        className="flex items-center gap-6 mt-10 transition-all duration-300 hover:scale-105"
+        className="flex items-center gap-6 mt-10 transition-colors duration-150 hover:text-accent"
       >
         <motion.div
           variants={itemVariants}
@@ -186,6 +243,7 @@ export default function Home() {
               alt={Education.name}
               fill
               className="object-cover rounded-md"
+              priority
             />
           </a>
         </motion.div>
