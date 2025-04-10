@@ -111,5 +111,14 @@ export const getCommands = (
       },
       section: "Links",
     },
+    {
+      id: "code",
+      name: "Source Code",
+      shortcut: ["shift", "C"],
+      action: () => {
+        window.open("https://github.com/jonz9/portfolio", "_blank");
+      },
+      section: "Links",
+    },
   ];
 };

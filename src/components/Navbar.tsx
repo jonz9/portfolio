@@ -71,12 +71,6 @@ const NavLink = memo(
 
 NavLink.displayName = "NavLink";
 
-const mobileMenuProps = {
-  navItems: navItems,
-  closeMobileMenu: () => closeMobileMenu(),
-  NavLink: NavLink,
-};
-
 const Navbar = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -154,13 +148,16 @@ const Navbar = () => {
         )}
       </button>
 
-      {isMobileMenuOpen && (
-        <MobileMenu
-          navItems={navItems}
-          closeMobileMenu={closeMobileMenu}
-          mounted={mounted}
-        />
-      )}
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <MobileMenu
+            navItems={navItems}
+            closeMobileMenu={closeMobileMenu}
+            mounted={mounted}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

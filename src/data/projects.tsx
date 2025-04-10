@@ -1,4 +1,22 @@
 export const ProjectsList = [
+  //   {
+  //     name: "Voxel Engine",
+  //     image: "",
+  //     caption: "Engine for voxel-based graphic generation",
+  //     github: "https://github.com/jonz9/voxel-engine",
+  //     date: "April 2025",
+  //     tags: ["C++", "C", "OpenGL", "GLFW", "GLAD"],
+  //     description: [],
+  //   },
+  //   {
+  //     name: "Gesture Navigation",
+  //     image: "",
+  //     caption: "Gesture navigation to control devices when AFK",
+  //     github: "https://github.com/jonz9/gesture-navigator",
+  //     date: "March 2025",
+  //     tags: ["OpenCV", "Python", "TensorFlow", "Keras", "MediaPipe"],
+  //     description: [],
+  //   },
   {
     name: "State Machine Developer Assistant",
     image: "/static/images/stateeditor.png",
