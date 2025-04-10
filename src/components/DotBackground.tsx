@@ -6,7 +6,6 @@ import React, { useEffect, useId, useRef, useState } from "react";
 
 /**
  *  DotPattern Component Props
- *
  * @param {number} [width=16] - The horizontal spacing between dots
  * @param {number} [height=16] - The vertical spacing between dots
  * @param {number} [x=0] - The x-offset of the entire pattern
