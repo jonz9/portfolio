@@ -36,7 +36,6 @@ const Photography = () => {
   // cam icon
   const camRef = useRef<LottieRefCurrentProps>(null);
   const [camAnimationData, setCamAnimationData] = useState(null);
-  const cam = theme.theme === "dark" ? "cam-white.json" : "cam-black.json";
 
   useEffect(() => {
     const loadLottie = async () => {
@@ -50,29 +49,34 @@ const Photography = () => {
 
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(
-    new Set<number>()
-  );
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   const imageCache = useRef<string[] | null>(null);
 
   const handleImageLoad = (index: number) => {
-    setLoadedImages((prev) => new Set(prev).add(index));
+    setLoadedImages((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(index);
+      return newSet;
+    });
   };
 
   const fetchPhotos = async () => {
-    if (imageCache.current) {
-      setImageUrls(imageCache.current);
-      setIsLoading(false);
-      return;
-    }
-
-    setIsLoading(true);
     try {
+      setIsLoading(true);
+
+      if (imageCache.current) {
+        setImageUrls(imageCache.current);
+        setIsLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase.storage
         .from("flicks")
         .list("flicks", { limit: 100 });
 
       if (error) throw error;
+
+      console.log(data);
 
       const urls: string[] = [];
       const batchSize = 10;
@@ -94,11 +98,10 @@ const Photography = () => {
         urls.push(...validUrls);
         setImageUrls((prev) => [...prev, ...validUrls]);
 
+        // preload first batch immediately
         if (i === 0) {
-          // Preload first 6 images
-          const firstBatch = validUrls.slice(0, 6);
           await Promise.all(
-            firstBatch.map((url, index) => {
+            validUrls.slice(0, 6).map((url, index) => {
               return new Promise<void>((resolve) => {
                 const img = new window.Image();
                 img.src = url;
@@ -106,14 +109,15 @@ const Photography = () => {
                   handleImageLoad(index);
                   resolve();
                 };
+                img.onerror = () => resolve();
               });
             })
           );
-          setIsLoading(false);
         }
       }
 
       imageCache.current = urls;
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching photos:", error);
       setIsLoading(false);
@@ -204,7 +208,7 @@ const Photography = () => {
         )}
 
         {/* Photo grid with progressive loading */}
-        {!isLoading && (
+        {!isLoading && imageUrls.length > 0 && (
           <motion.div
             variants={itemVariants}
             className="gap-2 space-y-2 columns-1 sm:gap-3 sm:space-y-3 sm:columns-2 lg:columns-3"
@@ -229,7 +233,7 @@ const Photography = () => {
                   className="object-cover w-full h-auto transition-opacity duration-300 rounded-lg"
                   loading={index < 6 ? "eager" : "lazy"}
                   priority={index < 6}
-                  onLoadingComplete={() => handleImageLoad(index)}
+                  onLoad={() => handleImageLoad(index)}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </motion.div>
