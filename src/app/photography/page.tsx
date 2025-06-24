@@ -211,7 +211,7 @@ const Photography = () => {
         {!isLoading && imageUrls.length > 0 && (
           <motion.div
             variants={itemVariants}
-            className="gap-2 space-y-2 columns-1 sm:gap-3 sm:space-y-3 sm:columns-2 lg:columns-3"
+            className="gap-2 space-y-2 columns-1 sm:gap-3 sm:space-y-3 sm:columns-3 lg:columns-4"
           >
             {imageUrls.map((url, index) => (
               <motion.div

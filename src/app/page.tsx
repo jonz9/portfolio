@@ -231,7 +231,7 @@ export default function Home() {
         initial="hidden"
         animate="show"
         viewport={{ once: true, amount: 0.25 }}
-        className="flex items-center gap-6 mt-10 transition-colors duration-150 hover:text-accent"
+        className="flex items-center gap-6 mt-10 transition-all duration-150 hover:text-accent hover:scale-105"
       >
         <motion.div
           variants={itemVariants}
