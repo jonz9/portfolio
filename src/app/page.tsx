@@ -113,7 +113,7 @@ export default function Home() {
     >
       {/* Name & Bio */}
       <motion.h1 variants={itemVariants} className="font-bold text-md">
-        {About.name}
+        Hey I'm {About.name}
       </motion.h1>
       <motion.p variants={itemVariants} className="text-md">
         I'm currently...

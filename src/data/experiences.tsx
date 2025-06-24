@@ -4,7 +4,7 @@ export const Experiences = [
     icon: "/static/images/amii.jpg",
     link: "https://amii.ca/",
     jobTitle: "ML Research Assistant",
-    date: "Jan 2025 - Present",
+    date: "Jan 2025 - May 2025",
     description: "Conducting research in Computational Linguistics and NER.",
   },
   {
@@ -12,7 +12,7 @@ export const Experiences = [
     icon: "/static/images/warg.jpeg",
     link: "https://www.uwarg.com/",
     jobTitle: "Autonomy Software Developer",
-    date: "May 2024 - Present",
+    date: "May 2024 - Apr 2025",
     description: "Developing autonomy and communication software for drones.",
   },
   {
@@ -20,7 +20,7 @@ export const Experiences = [
     icon: "/static/images/home.png",
     link: "https://www.h-o-m-e.ai/",
     jobTitle: "Full Stack Developer",
-    date: "Jan 2025 - Feb 2025",
+    date: "Jan 2025 - Mar 2025",
     description: "Built 3D rendering software for digital fabrication.",
   },
   {

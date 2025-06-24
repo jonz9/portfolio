@@ -5,12 +5,12 @@ export const ProjectsList = [
     caption:
       "The Semnatic Operational & Natural Assistant - voice activated and personal assistant for desktop productivity.",
     github: "https://github.com/Peter-Dated-Projects/S.O.N.A.",
-    date: "April 2025",
+    date: "Jun 2025",
     tags: [
-      "FastMCP",
-      "Python",
-      "PyTorch",
       "Flask",
+      "FastMCP",
+      "PyTorch",
+      "SocketIO",
       "Gemini",
       "Kokoro",
       "Picovoice",
@@ -20,11 +20,11 @@ export const ProjectsList = [
     description: [],
   },
   {
-    name: "Gesture Recognition Navigator",
-    image: "",
+    name: "Gesture Recognition System",
+    image: "/static/images/gesture.png",
     caption: "Gesture recognition to control devices when AFK",
     github: "https://github.com/jonz9/gesture-navigator",
-    date: "March 2025",
+    date: "April 2025",
     tags: ["OpenCV", "Python", "TensorFlow", "Keras", "MediaPipe"],
     description: [],
   },
@@ -67,7 +67,8 @@ export const ProjectsList = [
   {
     name: "Stock Market Simulator",
     image: "/static/images/stockmarketsim.png",
-    caption: "Stock market simulator for trading stocks",
+    caption:
+      "Stock market simulator using real-time data, predictions, and global leaderboard",
     github: "https://github.com/maostar1010/stock-simulation",
     date: "Feb 2025",
     tags: [
