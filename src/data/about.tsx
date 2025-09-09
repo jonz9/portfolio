@@ -5,15 +5,14 @@ export const About = {
   email: "j444zhan@uwaterloo.ca",
   phone: "+1 (647) 581-6930",
   bio: [
-    // {
-    //   text: "NLP Research @ Alberta Machine Intelligence Institute (Amii)",
-    // },
-    // { text: "Drone Autonomy @ UWARG" },
     {
-      text: "Running low on sleep",
+      text: "building internal tools @ Rogers Communications",
     },
-    { text: "Shooting RAWs at night" },
-    { text: "Running for a plate sometimes" },
+    { text: "training models @ WAT.ai" },
+    {
+      text: "i like shooting RAWs on low amounts of sleep",
+    },
+    { text: "i run for a plate sometimes" },
     { text: "Computer Engineering @ University of Waterloo" },
   ],
 };

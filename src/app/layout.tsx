@@ -33,7 +33,7 @@ import { About } from "@/data/about";
 // });
 
 export const metadata: Metadata = {
-  title: About.name,
+  title: "John Zhang",
   description: "Personal portfolio website",
   icons: {
     icon: [

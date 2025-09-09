@@ -1,5 +1,22 @@
 export const Experiences = [
   {
+    name: "Rogers Communications",
+    icon: "/static/images/rogers.jpg",
+    link: "https://www.rogers.com/",
+    jobTitle: "Machine Learning Engineer Intern",
+    date: "Sept 2025 - Present",
+    description: "Building and shipping generative internal tools.",
+  },
+  {
+    name: "WAT.ai",
+    icon: "/static/images/wat.jpg",
+    link: "https://watai.ca/",
+    jobTitle: "Machine Learning Engineer",
+    date: "May 2025 - Present",
+    description:
+      "Training models and prepping data for body language detection.",
+  },
+  {
     name: "Alberta Machine Intelligence Institute (Amii)",
     icon: "/static/images/amii.jpg",
     link: "https://amii.ca/",
